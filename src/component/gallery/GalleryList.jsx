@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Plus, Eye, Trash2, Search, LayoutGrid, List, ImageOff, X, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { fetchGallery, deleteGallery } from '../../api/galleryApi';
+import { fetchGallery, deleteGallery } from '../../api/galleryApi.js';
 
 const CAT_ACCENTS = {
   Clinic:   { bg: 'bg-blue-500',    light: 'bg-blue-50 text-blue-700 border-blue-200'     },
@@ -10,6 +10,7 @@ const CAT_ACCENTS = {
   Doctor:   { bg: 'bg-violet-500',  light: 'bg-violet-50 text-violet-700 border-violet-200' },
 };
 const DEFAULT_ACCENT = { bg: 'bg-rose-500', light: 'bg-rose-50 text-rose-700 border-rose-200' };
+
 
 const fmt = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
