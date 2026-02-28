@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Upload, X, Image as ImageIcon, CheckCircle, ChevronDown, ArrowLeft, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { createGalleryByFile } from '../../api/galleryApi';
-
+import { createGalleryByFile } from '../../api/Galleryapi.'
 // ── Muscle Work categories ──
 const CATEGORIES = ['Clinic', 'Therapy', 'Exercise', 'Doctor'];
 

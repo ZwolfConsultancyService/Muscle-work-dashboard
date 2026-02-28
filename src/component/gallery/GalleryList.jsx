@@ -13,6 +13,7 @@ const DEFAULT_ACCENT = { bg: 'bg-rose-500', light: 'bg-rose-50 text-rose-700 bor
 
 const fmt = d => new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 
+
 const GalleryList = () => {
   const navigate = useNavigate();
   const [images, setImages]           = useState([]);
