@@ -16,6 +16,7 @@ import {
   deleteGallery,
 } from "../../api/galleryapi/galleryapi";
 
+
 const CAT_ACCENTS = {
   Clinic: {
     bg: "bg-blue-500",
