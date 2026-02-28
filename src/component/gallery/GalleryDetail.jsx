@@ -16,7 +16,7 @@ import {
   fetchGalleryById,
   updateGallery,
   deleteGallery,
-} from "../../api/galleryapi";
+} from "../../api/galleryapi/galleryapi";
 
 const CATEGORIES = ["Clinic", "Therapy", "Exercise", "Doctor"];
 

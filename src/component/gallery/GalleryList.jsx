@@ -11,7 +11,10 @@ import {
   Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { fetchGallery, deleteGallery } from "../../api/galleryapi.js";
+import {
+  fetchGallery,
+  deleteGallery,
+} from "../../api/galleryapi/galleryapi";
 
 const CAT_ACCENTS = {
   Clinic: {
@@ -67,7 +70,6 @@ const GalleryList = () => {
 
       const imgs = data.data || [];
 
-      // Build category counts from images
       const countMap = {};
       imgs.forEach((img) => {
         countMap[img.cat] = (countMap[img.cat] || 0) + 1;
@@ -117,7 +119,6 @@ const GalleryList = () => {
     }
   };
 
-  // Search by title or cat
   const filtered = images.filter((img) => {
     const q = searchTerm.toLowerCase();
     return (

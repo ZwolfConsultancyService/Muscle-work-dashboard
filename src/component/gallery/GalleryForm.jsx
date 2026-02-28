@@ -9,7 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { createGalleryByFile } from "../../api/galleryapi.js";
+import { createGalleryByFile } from "../../api/galleryapi/galleryapi";
 
 // ── Muscle Work categories ──
 const CATEGORIES = ["Clinic", "Therapy", "Exercise", "Doctor"];
