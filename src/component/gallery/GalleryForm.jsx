@@ -1,52 +1,83 @@
-import React, { useState } from 'react';
-import { Upload, X, Image as ImageIcon, CheckCircle, ChevronDown, ArrowLeft, Loader2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { createGalleryByFile } from '../../api/GalleryApi.js'
+import React, { useState } from "react";
+import {
+  Upload,
+  X,
+  Image as ImageIcon,
+  CheckCircle,
+  ChevronDown,
+  ArrowLeft,
+  Loader2,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { createGalleryByFile } from "../../api/galleryapi.js";
 
 // ── Muscle Work categories ──
-const CATEGORIES = ['Clinic', 'Therapy', 'Exercise', 'Doctor'];
+const CATEGORIES = ["Clinic", "Therapy", "Exercise", "Doctor"];
 
 const GalleryForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData]         = useState({ title: '', cat: '' });
+  const [formData, setFormData] = useState({ title: "", cat: "" });
   const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview]           = useState(null);
-  const [success, setSuccess]           = useState(false);
-  const [error, setError]               = useState('');
-  const [loading, setLoading]           = useState(false);
+  const [preview, setPreview] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = e => { setFormData({ ...formData, [e.target.name]: e.target.value }); setError(''); };
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) { setError('Please select a valid image file'); return; }
-    if (file.size > 5 * 1024 * 1024)    { setError('File size must be under 5MB'); return; }
-    setSelectedFile(file);
-    setPreview(URL.createObjectURL(file));
-    setError('');
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const clearPreview = () => { setSelectedFile(null); setPreview(null); };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Please select a valid image file");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("File size must be under 5MB");
+      return;
+    }
+    setSelectedFile(file);
+    setPreview(URL.createObjectURL(file));
+    setError("");
+  };
 
-  const handleSubmit = async e => {
+  const clearPreview = () => {
+    setSelectedFile(null);
+    setPreview(null);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    if (!selectedFile)    { setError('Please select an image file'); return; }
-    if (!formData.cat)    { setError('Please select a category'); return; }
-    if (!formData.title)  { setError('Please enter a title'); return; }
+    if (!selectedFile) {
+      setError("Please select an image file");
+      return;
+    }
+    if (!formData.cat) {
+      setError("Please select a category");
+      return;
+    }
+    if (!formData.title) {
+      setError("Please enter a title");
+      return;
+    }
 
     try {
       setLoading(true);
       await createGalleryByFile(selectedFile, {
         title: formData.title,
-        cat:   formData.cat,
+        cat: formData.cat,
       });
       setSuccess(true);
-      setTimeout(() => navigate('/admin/gallery'), 1800);
+      setTimeout(() => navigate("/admin/gallery"), 1800);
     } catch (e) {
-      setError(e?.response?.data?.message || 'Upload failed. Please try again.');
+      setError(
+        e?.response?.data?.message || "Upload failed. Please try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -81,83 +112,244 @@ const GalleryForm = () => {
       `}</style>
 
       <div className="gf-root">
-        <div style={{ maxWidth:680, margin:'0 auto' }}>
-          <button onClick={() => navigate('/admin/gallery')}
-            style={{ display:'flex',alignItems:'center',gap:6,background:'none',border:'none',cursor:'pointer',color:'#6b7280',fontSize:14,fontFamily:"'DM Sans',sans-serif",marginBottom:28,padding:0 }}>
-            <ArrowLeft size={16}/> Back to Gallery
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <button
+            onClick={() => navigate("/admin/gallery")}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "#6b7280",
+              fontSize: 14,
+              fontFamily: "'DM Sans',sans-serif",
+              marginBottom: 28,
+              padding: 0,
+            }}
+          >
+            <ArrowLeft size={16} /> Back to Gallery
           </button>
 
-          <div style={{ marginBottom:32 }}>
-            <h1 className="gf-heading" style={{ fontSize:36,fontWeight:700,color:'#111',marginBottom:4 }}>Add New Image</h1>
-            <p style={{ color:'#9ca3af',fontSize:14 }}>Upload a clinic photo to your gallery</p>
+          <div style={{ marginBottom: 32 }}>
+            <h1
+              className="gf-heading"
+              style={{
+                fontSize: 36,
+                fontWeight: 700,
+                color: "#111",
+                marginBottom: 4,
+              }}
+            >
+              Add New Image
+            </h1>
+            <p style={{ color: "#9ca3af", fontSize: 14 }}>
+              Upload a clinic photo to your gallery
+            </p>
           </div>
 
           {success && (
-            <div className="fade-up" style={{ background:'#f0fdf4',border:'1.5px solid #bbf7d0',borderRadius:14,padding:'14px 18px',display:'flex',alignItems:'center',gap:10,marginBottom:24 }}>
-              <CheckCircle size={18} style={{ color:'#22c55e',flexShrink:0 }}/>
-              <p style={{ color:'#15803d',fontWeight:600,fontSize:14,margin:0 }}>Image uploaded successfully! Redirecting…</p>
+            <div
+              className="fade-up"
+              style={{
+                background: "#f0fdf4",
+                border: "1.5px solid #bbf7d0",
+                borderRadius: 14,
+                padding: "14px 18px",
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                marginBottom: 24,
+              }}
+            >
+              <CheckCircle
+                size={18}
+                style={{ color: "#22c55e", flexShrink: 0 }}
+              />
+              <p
+                style={{
+                  color: "#15803d",
+                  fontWeight: 600,
+                  fontSize: 14,
+                  margin: 0,
+                }}
+              >
+                Image uploaded successfully! Redirecting…
+              </p>
             </div>
           )}
 
           {error && (
-            <div className="fade-up" style={{ background:'#fff1f2',border:'1.5px solid #fecdd3',borderRadius:14,padding:'14px 18px',marginBottom:24 }}>
-              <p style={{ color:'#be123c',fontSize:14,margin:0 }}>{error}</p>
+            <div
+              className="fade-up"
+              style={{
+                background: "#fff1f2",
+                border: "1.5px solid #fecdd3",
+                borderRadius: 14,
+                padding: "14px 18px",
+                marginBottom: 24,
+              }}
+            >
+              <p style={{ color: "#be123c", fontSize: 14, margin: 0 }}>
+                {error}
+              </p>
             </div>
           )}
 
-          <div style={{ background:'#fff',borderRadius:20,border:'1px solid rgba(0,0,0,0.07)',padding:32,boxShadow:'0 4px 24px rgba(0,0,0,0.06)' }}>
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 20,
+              border: "1px solid rgba(0,0,0,0.07)",
+              padding: 32,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+            }}
+          >
             <form onSubmit={handleSubmit}>
-
               {/* File Upload */}
-              <div style={{ marginBottom:24 }}>
-                <label className="gf-label">Upload Image <span className="gf-required">*</span></label>
+              <div style={{ marginBottom: 24 }}>
+                <label className="gf-label">
+                  Upload Image <span className="gf-required">*</span>
+                </label>
                 {!preview ? (
                   <div className="drop-zone">
-                    <input type="file" id="fileInput" accept="image/*" onChange={handleFileChange} style={{ display:'none' }}/>
-                    <label htmlFor="fileInput" style={{ cursor:'pointer' }}>
-                      <ImageIcon size={36} style={{ color:'#d1d5db',margin:'0 auto 12px',display:'block' }}/>
-                      <p style={{ color:'#374151',fontWeight:600,fontSize:14,margin:'0 0 4px' }}>Click to upload</p>
-                      <p style={{ color:'#9ca3af',fontSize:13,margin:0 }}>PNG, JPG, JPEG, WEBP · Max 5MB</p>
+                    <input
+                      type="file"
+                      id="fileInput"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
+                    />
+                    <label htmlFor="fileInput" style={{ cursor: "pointer" }}>
+                      <ImageIcon
+                        size={36}
+                        style={{
+                          color: "#d1d5db",
+                          margin: "0 auto 12px",
+                          display: "block",
+                        }}
+                      />
+                      <p
+                        style={{
+                          color: "#374151",
+                          fontWeight: 600,
+                          fontSize: 14,
+                          margin: "0 0 4px",
+                        }}
+                      >
+                        Click to upload
+                      </p>
+                      <p style={{ color: "#9ca3af", fontSize: 13, margin: 0 }}>
+                        PNG, JPG, JPEG, WEBP · Max 5MB
+                      </p>
                     </label>
                   </div>
                 ) : (
-                  <div style={{ position:'relative' }}>
-                    <img src={preview} alt="Preview" style={{ width:'100%',height:220,objectFit:'cover',borderRadius:14,display:'block' }}/>
-                    <button type="button" onClick={clearPreview}
-                      style={{ position:'absolute',top:10,right:10,background:'rgba(0,0,0,0.6)',border:'none',borderRadius:999,padding:6,cursor:'pointer',color:'#fff',display:'flex' }}>
-                      <X size={14}/>
+                  <div style={{ position: "relative" }}>
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      style={{
+                        width: "100%",
+                        height: 220,
+                        objectFit: "cover",
+                        borderRadius: 14,
+                        display: "block",
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={clearPreview}
+                      style={{
+                        position: "absolute",
+                        top: 10,
+                        right: 10,
+                        background: "rgba(0,0,0,0.6)",
+                        border: "none",
+                        borderRadius: 999,
+                        padding: 6,
+                        cursor: "pointer",
+                        color: "#fff",
+                        display: "flex",
+                      }}
+                    >
+                      <X size={14} />
                     </button>
-                    <p style={{ marginTop:8,fontSize:13,color:'#6b7280' }}>{selectedFile?.name}</p>
+                    <p style={{ marginTop: 8, fontSize: 13, color: "#6b7280" }}>
+                      {selectedFile?.name}
+                    </p>
                   </div>
                 )}
               </div>
 
               {/* Title */}
-              <div style={{ marginBottom:20 }}>
-                <label className="gf-label">Title <span className="gf-required">*</span></label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange}
+              <div style={{ marginBottom: 20 }}>
+                <label className="gf-label">
+                  Title <span className="gf-required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
                   placeholder="e.g., Our Clinic Reception"
-                  className={`gf-input ${error && !formData.title ? 'err' : ''}`}/>
+                  className={`gf-input ${error && !formData.title ? "err" : ""}`}
+                />
               </div>
 
               {/* Category */}
-              <div style={{ marginBottom:32 }}>
-                <label className="gf-label">Category <span className="gf-required">*</span></label>
-                <div style={{ position:'relative' }}>
-                  <select name="cat" value={formData.cat} onChange={handleChange}
-                    className={`gf-select ${error && !formData.cat ? 'err' : ''}`}>
+              <div style={{ marginBottom: 32 }}>
+                <label className="gf-label">
+                  Category <span className="gf-required">*</span>
+                </label>
+                <div style={{ position: "relative" }}>
+                  <select
+                    name="cat"
+                    value={formData.cat}
+                    onChange={handleChange}
+                    className={`gf-select ${error && !formData.cat ? "err" : ""}`}
+                  >
                     <option value="">— Select a category —</option>
-                    {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
                   </select>
-                  <ChevronDown size={16} style={{ position:'absolute',right:12,top:'50%',transform:'translateY(-50%)',pointerEvents:'none',color:'#9ca3af' }}/>
+                  <ChevronDown
+                    size={16}
+                    style={{
+                      position: "absolute",
+                      right: 12,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      pointerEvents: "none",
+                      color: "#9ca3af",
+                    }}
+                  />
                 </div>
               </div>
 
-              <div style={{ display:'flex',gap:12 }}>
+              <div style={{ display: "flex", gap: 12 }}>
                 <button type="submit" className="submit-btn" disabled={loading}>
-                  {loading ? <><Loader2 size={16} className="spin"/> Uploading…</> : <><Upload size={16}/> Upload Image</>}
+                  {loading ? (
+                    <>
+                      <Loader2 size={16} className="spin" /> Uploading…
+                    </>
+                  ) : (
+                    <>
+                      <Upload size={16} /> Upload Image
+                    </>
+                  )}
                 </button>
-                <button type="button" onClick={() => navigate('/admin/gallery')} className="cancel-btn">Cancel</button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/admin/gallery")}
+                  className="cancel-btn"
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
