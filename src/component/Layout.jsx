@@ -18,7 +18,7 @@ const Layout = ({ children }) => {
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
               <LucideServerCog className="h-8 w-8 text-[#5aa6f8]" />
-              <h1 className="text-2xl font-bold text-gray-900">Maa Pitambara Tours and Travels</h1>
+              <h1 className="text-2xl font-bold text-gray-900"> Muscle-work-dashboard</h1>
             </div>
 
             <nav className="flex items-center space-x-1 sm:space-x-4">
