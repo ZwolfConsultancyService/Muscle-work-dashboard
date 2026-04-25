@@ -6,7 +6,7 @@ import {
   ListFilter, Loader2, Clock, CheckCircle, XCircle, AlertCircle
 } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:1000/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://muscleworkphysiotherapycare.com/api';
 
 // ── Status badge styles ──
 const STATUS_STYLES = {

@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "https://muscle-work-backend.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://muscleworkphysiotherapycare.com/api",
   headers: {
     "Content-Type": "application/json",
   },
